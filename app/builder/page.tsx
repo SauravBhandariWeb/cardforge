@@ -1539,7 +1539,7 @@ function Page() {
           ========================================== */}
 
           <motion.section
-            className="lg:col-span-2"
+            className="self-start lg:col-span-2"
             initial={{
               opacity: 0,
               x: -24,
@@ -1552,7 +1552,7 @@ function Page() {
               duration: 0.6,
             }}
           >
-            <div className="lg:sticky lg:top-24 cursor-pointer">
+            <div className="lg:sticky lg:top-[92px] lg:self-start">
               <div className="mb-4 flex items-end justify-between gap-4">
                 <div>
                   <div className="mb-1.5 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em] text-blue-400">
