@@ -180,6 +180,7 @@ function normalizeTextColor(value?: string | null) {
 
 function hexToRgba(hex: string, alpha: number) {
   const { r, g, b } = hexToRgb(hex)
+
   return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
@@ -260,7 +261,9 @@ function Page() {
   const logoInputRef =
     useRef<HTMLInputElement>(null)
 
- 
+  /* ==========================================================
+     LOAD EXISTING CARD
+  ========================================================== */
 
   useEffect(() => {
     let cancelled = false
@@ -458,7 +461,9 @@ function Page() {
     e.target.value = ""
   }
 
-
+  /* ==========================================================
+     SAVE CARD
+  ========================================================== */
 
   async function handleSaveCard() {
     if (saving) return
@@ -885,6 +890,10 @@ function Page() {
     )
   }
 
+  /* ==========================================================
+     EXPORT CLONE FIX
+  ========================================================== */
+
   function prepareExportClone(
     clonedDoc: Document,
     clonedCard: HTMLElement,
@@ -904,18 +913,18 @@ function Page() {
     const exportWidth =
       Math.max(
         1,
-        Math.round(
-          rect.width,
-        ),
+        Math.round(rect.width),
       )
 
     const exportHeight =
       Math.max(
         1,
-        Math.round(
-          rect.height,
-        ),
+        Math.round(rect.height),
       )
+
+    /* ========================================================
+       CARD SIZE / POSITION
+    ======================================================== */
 
     clonedCard.style.setProperty(
       "width",
@@ -1007,6 +1016,173 @@ function Page() {
       "important",
     )
 
+    /* ========================================================
+       FIND EXPORT ELEMENTS
+    ======================================================== */
+
+    const exportContent =
+      clonedCard.querySelector(
+        "[data-export-content]",
+      ) as HTMLElement | null
+
+    const exportIdentity =
+      clonedCard.querySelector(
+        "[data-export-student-identity]",
+      ) as HTMLElement | null
+
+    const exportDetailsGrid =
+      clonedCard.querySelector(
+        "[data-export-details-grid]",
+      ) as HTMLElement | null
+
+    /* ========================================================
+       CARD CONTENT
+    ======================================================== */
+
+    if (exportContent) {
+      exportContent.style.setProperty(
+        "display",
+        "flex",
+        "important",
+      )
+
+      exportContent.style.setProperty(
+        "flex-direction",
+        "column",
+        "important",
+      )
+
+      exportContent.style.setProperty(
+        "width",
+        "100%",
+        "important",
+      )
+
+      exportContent.style.setProperty(
+        "height",
+        "100%",
+        "important",
+      )
+
+      exportContent.style.setProperty(
+        "min-height",
+        "0",
+        "important",
+      )
+
+      exportContent.style.setProperty(
+        "box-sizing",
+        "border-box",
+        "important",
+      )
+    }
+
+    /* ========================================================
+       STUDENT IDENTITY CENTER FIX
+    ======================================================== */
+
+    if (exportIdentity) {
+      exportIdentity.style.setProperty(
+        "display",
+        "flex",
+        "important",
+      )
+
+      exportIdentity.style.setProperty(
+        "flex",
+        "1 1 0%",
+        "important",
+      )
+
+      exportIdentity.style.setProperty(
+        "min-height",
+        "0",
+        "important",
+      )
+
+      exportIdentity.style.setProperty(
+        "width",
+        "100%",
+        "important",
+      )
+
+      exportIdentity.style.setProperty(
+        "flex-direction",
+        "column",
+        "important",
+      )
+
+      exportIdentity.style.setProperty(
+        "align-items",
+        "center",
+        "important",
+      )
+
+      exportIdentity.style.setProperty(
+        "justify-content",
+        "center",
+        "important",
+      )
+
+      exportIdentity.style.setProperty(
+        "text-align",
+        "center",
+        "important",
+      )
+
+      exportIdentity.style.setProperty(
+        "box-sizing",
+        "border-box",
+        "important",
+      )
+    }
+
+    /* ========================================================
+       DETAILS GRID
+    ======================================================== */
+
+    if (exportDetailsGrid) {
+      exportDetailsGrid.style.setProperty(
+        "display",
+        "grid",
+        "important",
+      )
+
+      exportDetailsGrid.style.setProperty(
+        "grid-template-columns",
+        "repeat(4, minmax(0, 1fr))",
+        "important",
+      )
+
+      exportDetailsGrid.style.setProperty(
+        "gap",
+        "6px",
+        "important",
+      )
+
+      exportDetailsGrid.style.setProperty(
+        "width",
+        "100%",
+        "important",
+      )
+
+      exportDetailsGrid.style.setProperty(
+        "flex-shrink",
+        "0",
+        "important",
+      )
+
+      exportDetailsGrid.style.setProperty(
+        "box-sizing",
+        "border-box",
+        "important",
+      )
+    }
+
+    /* ========================================================
+       ALL CHILDREN
+    ======================================================== */
+
     clonedCard
       .querySelectorAll<HTMLElement>(
         "*",
@@ -1045,6 +1221,176 @@ function Page() {
         const tag =
           element.tagName.toLowerCase()
 
+        /* ======================================================
+           DETAIL BOX CONTAINER
+        ====================================================== */
+
+        if (
+          element.hasAttribute(
+            "data-export-detail",
+          )
+        ) {
+          element.style.setProperty(
+            "display",
+            "flex",
+            "important",
+          )
+
+          element.style.setProperty(
+            "flex-direction",
+            "column",
+            "important",
+          )
+
+          element.style.setProperty(
+            "align-items",
+            "center",
+            "important",
+          )
+
+          element.style.setProperty(
+            "justify-content",
+            "center",
+            "important",
+          )
+
+          element.style.setProperty(
+            "text-align",
+            "center",
+            "important",
+          )
+
+          element.style.setProperty(
+            "box-sizing",
+            "border-box",
+            "important",
+          )
+
+          element.style.setProperty(
+            "width",
+            "100%",
+            "important",
+          )
+
+          element.style.setProperty(
+            "min-width",
+            "0",
+            "important",
+          )
+
+          element.style.setProperty(
+            "overflow",
+            "hidden",
+            "important",
+          )
+
+          element.style.setProperty(
+            "flex-shrink",
+            "0",
+            "important",
+          )
+        }
+
+        /* ======================================================
+           TEXT INSIDE DETAIL BOX
+        ====================================================== */
+
+        if (
+          element.closest(
+            "[data-export-detail]",
+          ) &&
+          (tag === "p" ||
+            tag === "span")
+        ) {
+          element.style.setProperty(
+            "display",
+            "block",
+            "important",
+          )
+
+          element.style.setProperty(
+            "width",
+            "100%",
+            "important",
+          )
+
+          element.style.setProperty(
+            "max-width",
+            "100%",
+            "important",
+          )
+
+          element.style.setProperty(
+            "margin-left",
+            "0",
+            "important",
+          )
+
+          element.style.setProperty(
+            "margin-right",
+            "0",
+            "important",
+          )
+
+          element.style.setProperty(
+            "text-align",
+            "center",
+            "important",
+          )
+
+          element.style.setProperty(
+            "overflow",
+            "hidden",
+            "important",
+          )
+
+          element.style.setProperty(
+            "text-overflow",
+            "clip",
+            "important",
+          )
+
+          element.style.setProperty(
+            "white-space",
+            "nowrap",
+            "important",
+          )
+
+          element.style.setProperty(
+            "height",
+            "auto",
+            "important",
+          )
+
+          element.style.setProperty(
+            "min-height",
+            "0",
+            "important",
+          )
+
+          element.style.setProperty(
+            "max-height",
+            "none",
+            "important",
+          )
+
+          element.style.setProperty(
+            "line-height",
+            "1.1",
+            "important",
+          )
+
+          element.style.setProperty(
+            "box-sizing",
+            "border-box",
+            "important",
+          )
+        }
+
+        /* ======================================================
+           GENERAL TEXT SAFETY
+        ====================================================== */
+
         if (
           element.classList.contains(
             "truncate",
@@ -1064,12 +1410,6 @@ function Page() {
           element.style.setProperty(
             "text-overflow",
             "clip",
-            "important",
-          )
-
-          element.style.setProperty(
-            "line-height",
-            "normal",
             "important",
           )
         }
@@ -1100,28 +1440,113 @@ function Page() {
         }
       })
 
+    /* ========================================================
+       EXPLICIT EXPORT CSS
+    ======================================================== */
+
     const exportTextStyle =
       clonedDoc.createElement(
         "style",
       )
 
+    exportTextStyle.setAttribute(
+      "data-export-text-fix",
+      "true",
+    )
+
     exportTextStyle.textContent = `
-      [data-card-export] p,
+      /* Card content */
+      [data-card-export] [data-export-content] {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Student Identity */
+      [data-card-export] [data-export-student-identity] {
+        display: flex !important;
+        flex: 1 1 0% !important;
+        min-height: 0 !important;
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+      }
+
+      [data-card-export] [data-export-student-identity] h2,
+      [data-card-export] [data-export-student-identity] p,
+      [data-card-export] [data-export-student-identity] span {
+        text-align: center !important;
+      }
+
+      /* Details Grid */
+      [data-card-export] [data-export-details-grid] {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+        width: 100% !important;
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Four detail boxes */
+      [data-card-export] [data-export-detail] {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        flex-shrink: 0 !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+      }
+
+      /* Detail text */
+      [data-card-export] [data-export-detail] p,
+      [data-card-export] [data-export-detail] span {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: clip !important;
+        line-height: 1.1 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        box-sizing: border-box !important;
+      }
+
+      [data-card-export] [data-export-detail] p + p {
+        margin-top: 2px !important;
+      }
+
+      /* Keep exported card headings/text sane */
       [data-card-export] h1,
       [data-card-export] h2,
       [data-card-export] h3,
+      [data-card-export] p,
       [data-card-export] span {
-        overflow: visible !important;
-        text-overflow: clip !important;
-        line-height: normal !important;
-        height: auto !important;
-        max-height: none !important;
+        box-sizing: border-box !important;
       }
     `
 
     clonedDoc.head.appendChild(
       exportTextStyle,
     )
+
+    /* ========================================================
+       IMAGES
+    ======================================================== */
 
     const originalImages =
       Array.from(
@@ -1158,6 +1583,10 @@ function Page() {
           originalImage.src
       },
     )
+
+    /* ========================================================
+       SVG
+    ======================================================== */
 
     clonedCard
       .querySelectorAll<SVGElement>(
@@ -1197,8 +1626,9 @@ function Page() {
   async function handleExport(
     format: "png" | "pdf",
   ) {
-    if (exporting || saving)
+    if (exporting || saving) {
       return
+    }
 
     if (!cardRef.current) {
       setExportError(
@@ -1271,6 +1701,7 @@ function Page() {
             imageTimeout: 20000,
             removeContainer: true,
             foreignObjectRendering: false,
+
             onclone: (
               clonedDoc,
             ) => {
@@ -1279,8 +1710,9 @@ function Page() {
                   "[data-card-export]",
                 ) as HTMLElement | null
 
-              if (!clonedCard)
+              if (!clonedCard) {
                 return
+              }
 
               prepareExportClone(
                 clonedDoc,
@@ -1311,6 +1743,10 @@ function Page() {
       const fileName =
         `College_ID_${safeRollNumber}`
 
+      /* ========================================================
+         PNG
+      ======================================================== */
+
       if (format === "png") {
         const blob =
           await new Promise<Blob | null>(
@@ -1340,6 +1776,7 @@ function Page() {
           )
 
         link.href = url
+
         link.download =
           `${fileName}.png`
 
@@ -1359,6 +1796,10 @@ function Page() {
 
         return
       }
+
+      /* ========================================================
+         PDF
+      ======================================================== */
 
       const imgData =
         canvas.toDataURL(
@@ -1435,7 +1876,8 @@ function Page() {
           style={{
             backgroundImage:
               "linear-gradient(rgba(148,163,184,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.5) 1px, transparent 1px)",
-            backgroundSize: "42px 42px",
+            backgroundSize:
+              "42px 42px",
           }}
         />
 
@@ -1490,8 +1932,10 @@ function Page() {
         <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:h-[76px] sm:px-6 lg:px-8">
           <motion.button
             type="button"
-            onClick={() => router.back()}
-            className="inline-flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-2.5 py-2 text-sm font-semibold text-slate-400 transition-all hover:border-white/10 hover:bg-white/[0.06] hover:text-white cursor-pointer"
+            onClick={() =>
+              router.back()
+            }
+            className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-2.5 py-2 text-sm font-semibold text-slate-400 transition-all hover:border-white/10 hover:bg-white/[0.06] hover:text-white"
             whileHover={{
               x: -2,
             }}
@@ -1565,7 +2009,7 @@ function Page() {
                   </h2>
                 </div>
 
-                <div className="hidden rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[10px] font-bold uppercase  tracking-wider text-slate-500 shadow-sm sm:block">
+                <div className="hidden rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 shadow-sm sm:block">
                   85.6 × 53.98 mm
                 </div>
               </div>
@@ -1595,20 +2039,16 @@ function Page() {
                     style={{
                       aspectRatio:
                         "85.6 / 53.98",
-
                       backgroundColor:
                         normalizeHexColor(
                           card.cardColor,
                         ),
-
                       boxShadow:
                         "0 30px 70px rgba(0,0,0,0.32), 0 8px 20px rgba(15,23,42,0.18)",
-
                       transform:
                         isHovering
                           ? `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) scale(1.02)`
                           : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)",
-
                       transition:
                         "transform 300ms ease",
                     }}
@@ -1617,15 +2057,16 @@ function Page() {
                     <div
                       className="absolute inset-0"
                       style={{
-                        background: `linear-gradient(135deg, ${normalizeHexColor(
-                          card.cardColor,
-                        )} 0%, ${shadeColor(
-                          card.cardColor,
-                          -0.18,
-                        )} 55%, ${shadeColor(
-                          card.cardColor,
-                          -0.32,
-                        )} 100%)`,
+                        background:
+                          `linear-gradient(135deg, ${normalizeHexColor(
+                            card.cardColor,
+                          )} 0%, ${shadeColor(
+                            card.cardColor,
+                            -0.18,
+                          )} 55%, ${shadeColor(
+                            card.cardColor,
+                            -0.32,
+                          )} 100%)`,
                       }}
                     />
 
@@ -1649,7 +2090,8 @@ function Page() {
 
                     {/* CARD CONTENT */}
                     <div
-                      className="relative flex h-full w-full flex-col justify-between p-[4%]"
+                      data-export-content
+                      className="relative flex h-full w-full flex-col p-[4%]"
                       style={{
                         fontSize: "11px",
                         color:
@@ -1658,9 +2100,9 @@ function Page() {
                           ),
                       }}
                     >
-                      {/* TOP */}
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex min-w-0 flex-1 items-center gap-2">
+                      {/* COLLEGE HEADER */}
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex min-w-0 flex-1 items-center gap-2.5">
                           {card.collegeLogo ? (
                             <img
                               src={
@@ -1668,17 +2110,17 @@ function Page() {
                               }
                               alt="College Logo"
                               crossOrigin="anonymous"
-                              className="h-10 w-10 shrink-0 rounded-full bg-white p-1 object-contain shadow-md ring-1 ring-white/50"
+                              className="h-9 w-9 shrink-0 rounded-full border border-white/60 bg-white p-1 object-contain shadow-md"
                             />
                           ) : (
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/15 text-[8px] font-black backdrop-blur-sm">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/15 text-[7px] font-black backdrop-blur-sm">
                               LOGO
                             </div>
                           )}
 
                           <div className="min-w-0 flex-1">
                             <p
-                              className="truncate font-black uppercase"
+                              className="truncate font-black uppercase tracking-wide"
                               style={{
                                 fontSize:
                                   "9px",
@@ -1696,13 +2138,13 @@ function Page() {
                               className="mt-0.5 truncate"
                               style={{
                                 fontSize:
-                                  "7px",
+                                  "6.5px",
                                 color:
                                   hexToRgba(
                                     normalizeTextColor(
                                       card.textColor,
                                     ),
-                                    0.8,
+                                    0.78,
                                   ),
                               }}
                             >
@@ -1711,15 +2153,16 @@ function Page() {
                             </p>
 
                             <p
+                              className="truncate"
                               style={{
                                 fontSize:
-                                  "7px",
+                                  "6.5px",
                                 color:
                                   hexToRgba(
                                     normalizeTextColor(
                                       card.textColor,
                                     ),
-                                    0.8,
+                                    0.78,
                                   ),
                               }}
                             >
@@ -1734,22 +2177,44 @@ function Page() {
                             src={card.photo}
                             alt="Student"
                             crossOrigin="anonymous"
-                            className="h-16 w-12 shrink-0 rounded-lg border-2 border-white/90 object-cover shadow-lg"
+                            className="h-14 w-11 shrink-0 rounded-md border border-white/80 bg-white/10 object-cover shadow-lg"
                           />
                         ) : (
-                          <div className="flex h-16 w-12 shrink-0 items-center justify-center rounded-lg border-2 border-white/70 bg-white/10 text-center text-[7px] font-black backdrop-blur-sm">
+                          <div className="flex h-14 w-11 shrink-0 items-center justify-center rounded-md border border-white/60 bg-white/10 text-center text-[6.5px] font-black backdrop-blur-sm">
                             PHOTO
                           </div>
                         )}
                       </div>
 
-                      {/* NAME */}
-                      <div className="min-w-0 py-1 text-center">
+                      {/* STUDENT IDENTITY */}
+                      <div
+                        data-export-student-identity
+                        className="flex min-h-0 flex-1 flex-col items-center justify-center py-2 text-center"
+                      >
+                        <div className="mb-1 rounded-full border border-white/20 bg-white/10 px-2.5 py-0.5 backdrop-blur-sm">
+                          <span
+                            className="font-black uppercase tracking-[0.18em]"
+                            style={{
+                              fontSize:
+                                "6px",
+                              color:
+                                hexToRgba(
+                                  normalizeTextColor(
+                                    card.textColor,
+                                  ),
+                                  0.9,
+                                ),
+                            }}
+                          >
+                            Student ID Card
+                          </span>
+                        </div>
+
                         <h2
-                          className="truncate font-black"
+                          className="max-w-[80%] truncate text-center font-black uppercase"
                           style={{
                             fontSize:
-                              "14px",
+                              "15px",
                             color:
                               normalizeTextColor(
                                 card.textColor,
@@ -1762,7 +2227,7 @@ function Page() {
                         </h2>
 
                         <p
-                          className="truncate"
+                          className="mt-0.5 max-w-[85%] truncate text-center font-semibold"
                           style={{
                             fontSize:
                               "8px",
@@ -1771,21 +2236,36 @@ function Page() {
                                 normalizeTextColor(
                                   card.textColor,
                                 ),
-                                0.85,
+                                0.86,
                               ),
                           }}
                         >
                           {card.department ||
-                            "Department / Branch"}
+                            "Computer Science & Engineering"}
+                        </p>
+
+                        <p
+                          className="mt-1 text-center font-medium uppercase tracking-wider"
+                          style={{
+                            fontSize:
+                              "5.5px",
+                            color:
+                              hexToRgba(
+                                normalizeTextColor(
+                                  card.textColor,
+                                ),
+                                0.62,
+                              ),
+                          }}
+                        >
+                          Official Student Identity
                         </p>
                       </div>
 
                       {/* DETAILS */}
                       <div
-                        className="grid grid-cols-4 gap-2"
-                        style={{
-                          fontSize: "7px",
-                        }}
+                        data-export-details-grid
+                        className="grid shrink-0 grid-cols-4 gap-1.5"
                       >
                         {[
                           [
@@ -1809,44 +2289,45 @@ function Page() {
                               "—",
                           ],
                         ].map(
-                          ([
-                            label,
-                            value,
-                          ]) => (
+                          ([label, value]) => (
                             <div
-                              key={
-                                label
-                              }
-                              className="min-w-0 rounded-sm bg-white/5 px-1 py-1"
+                              key={label}
+                              data-export-detail
+                              className="flex min-w-0 flex-col items-center justify-center rounded-md border border-white/10 bg-black/10 px-1.5 py-1.5 text-center backdrop-blur-md"
                             >
                               <p
+                                className="m-0 w-full text-center uppercase"
                                 style={{
+                                  fontSize:
+                                    "5.5px",
+                                  lineHeight:
+                                    "1.1",
                                   color:
                                     hexToRgba(
                                       normalizeTextColor(
                                         card.textColor,
                                       ),
-                                      0.65,
+                                      0.62,
                                     ),
                                 }}
                               >
-                                {
-                                  label
-                                }
+                                {label}
                               </p>
 
                               <p
-                                className="truncate font-black"
+                                className="m-0 mt-0.5 w-full text-center font-black"
                                 style={{
+                                  fontSize:
+                                    "7px",
+                                  lineHeight:
+                                    "1.1",
                                   color:
                                     normalizeTextColor(
                                       card.textColor,
                                     ),
                                 }}
                               >
-                                {
-                                  value
-                                }
+                                {value}
                               </p>
                             </div>
                           ),
@@ -1854,36 +2335,35 @@ function Page() {
                       </div>
 
                       {/* BOTTOM */}
-                      <div className="mt-1 flex items-end justify-between gap-2">
+                      <div className="mt-1.5 flex items-end justify-between gap-3">
                         <div
-                          className="text-left"
+                          className="min-w-0 text-left"
                           style={{
                             color:
                               hexToRgba(
                                 normalizeTextColor(
                                   card.textColor,
                                 ),
-                                0.8,
+                                0.78,
                               ),
-                            fontSize:
-                              "7px",
+                            fontSize: "6px",
                           }}
                         >
-                          <p className="font-bold uppercase tracking-wider">
-                            Student Identity
+                          <p className="font-black uppercase tracking-[0.16em]">
+                            Department
                           </p>
 
-                          <p className="mt-0.5">
-                            Official College ID
+                          <p className="mt-0.5 max-w-[220px] truncate">
+                            {card.department ||
+                              "Computer Science & Engineering"}
                           </p>
                         </div>
 
                         {card.rollNumber && (
-                          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white p-0.5 shadow-lg">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-white p-0.5 shadow-lg">
                             <QRCodeSVG
                               value={[
                                 "COLLEGE ID CARD",
-                                "",
                                 `Name: ${card.firstName} ${card.lastName}`.trim(),
                                 `Roll No: ${card.rollNumber}`,
                                 `DOB: ${card.dateOfBirth}`,
@@ -1891,7 +2371,6 @@ function Page() {
                                 `Phone: ${card.phone}`,
                                 `Department: ${card.department}`,
                                 `Address: ${card.address}`,
-                                "",
                                 `College: ${card.collegeName}`,
                                 `College Address: ${card.collegeAddress}`,
                                 `College Phone: ${card.collegePhone}`,
@@ -1907,11 +2386,13 @@ function Page() {
                                 .join(
                                   "\n",
                                 )}
-                              size={42}
+                              size={36}
                               bgColor="#ffffff"
                               fgColor="#000000"
                               level="M"
-                              includeMargin={false}
+                              includeMargin={
+                                false
+                              }
                             />
                           </div>
                         )}
@@ -2138,13 +2619,20 @@ function Page() {
                       setCard(
                         (previous) => ({
                           ...previous,
-                          rollNumber: value,
-                          barcodeData: value,
+                          rollNumber:
+                            value,
+                          barcodeData:
+                            value,
                         }),
                       )
 
-                      setExportError(null)
-                      setSaveMessage(null)
+                      setExportError(
+                        null,
+                      )
+
+                      setSaveMessage(
+                        null,
+                      )
                     }}
                     className={inputClass}
                     placeholder="e.g. 21CS1001"
@@ -2159,7 +2647,9 @@ function Page() {
 
                     <input
                       type="text"
-                      value={card.dateOfBirth}
+                      value={
+                        card.dateOfBirth
+                      }
                       onChange={(e) =>
                         updateCard(
                           "dateOfBirth",
@@ -2177,7 +2667,9 @@ function Page() {
                     </label>
 
                     <select
-                      value={card.bloodGroup}
+                      value={
+                        card.bloodGroup
+                      }
                       onChange={(e) =>
                         updateCard(
                           "bloodGroup",
@@ -2229,7 +2721,9 @@ function Page() {
 
                     <input
                       type="text"
-                      value={card.department}
+                      value={
+                        card.department
+                      }
                       onChange={(e) =>
                         updateCard(
                           "department",
@@ -2286,9 +2780,7 @@ function Page() {
             <div className="rounded-2xl border border-white/[0.08] bg-white/[0.045] p-5 shadow-[0_20px_50px_rgba(0,0,0,0.16)] backdrop-blur-2xl transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.055] sm:p-6">
               <div className="mb-5 flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-indigo-400/10 bg-indigo-500/10 text-indigo-400">
-                  <GraduationCap
-                    size={18}
-                  />
+                  <GraduationCap size={18} />
                 </div>
 
                 <div>
@@ -2310,7 +2802,9 @@ function Page() {
 
                   <input
                     type="text"
-                    value={card.collegeName}
+                    value={
+                      card.collegeName
+                    }
                     onChange={(e) =>
                       updateCard(
                         "collegeName",
@@ -2329,7 +2823,9 @@ function Page() {
 
                   <input
                     type="text"
-                    value={card.collegeAddress}
+                    value={
+                      card.collegeAddress
+                    }
                     onChange={(e) =>
                       updateCard(
                         "collegeAddress",
@@ -2348,7 +2844,9 @@ function Page() {
 
                   <input
                     type="tel"
-                    value={card.collegePhone}
+                    value={
+                      card.collegePhone
+                    }
                     onChange={(e) =>
                       updateCard(
                         "collegePhone",
@@ -2390,7 +2888,9 @@ function Page() {
                   <div>
                     <div className="mx-auto flex w-fit items-center justify-center rounded-2xl border border-white/10 bg-black/10 p-2 shadow-xl">
                       <img
-                        src={card.photo}
+                        src={
+                          card.photo
+                        }
                         alt="Preview"
                         className="h-36 w-28 rounded-xl object-cover"
                       />
@@ -2425,7 +2925,9 @@ function Page() {
                 ref={photoInputRef}
                 type="file"
                 accept="image/*"
-                onChange={handlePhotoUpload}
+                onChange={
+                  handlePhotoUpload
+                }
                 className="hidden"
               />
             </div>
@@ -2474,14 +2976,18 @@ function Page() {
                 ref={logoInputRef}
                 type="file"
                 accept="image/*"
-                onChange={handleLogoUpload}
+                onChange={
+                  handleLogoUpload
+                }
                 className="hidden"
               />
 
               {card.collegeLogo && (
                 <div className="mt-4 flex justify-center rounded-2xl border border-white/10 bg-black/10 p-6">
                   <img
-                    src={card.collegeLogo}
+                    src={
+                      card.collegeLogo
+                    }
                     alt="College Logo"
                     crossOrigin="anonymous"
                     className="h-24 w-24 object-contain"
@@ -2510,7 +3016,11 @@ function Page() {
 
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
                 <div>
-                  <label className={labelClass}>
+                  <label
+                    className={
+                      labelClass
+                    }
+                  >
                     Preview
                   </label>
 
@@ -2531,13 +3041,19 @@ function Page() {
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <label className={labelClass}>
+                  <label
+                    className={
+                      labelClass
+                    }
+                  >
                     Hex color
                   </label>
 
                   <input
                     type="text"
-                    value={card.cardColor}
+                    value={
+                      card.cardColor
+                    }
                     onChange={(e) => {
                       const raw =
                         e.target.value.toUpperCase()
@@ -2565,9 +3081,13 @@ function Page() {
                         ),
                       )
                     }
-                    className={inputClass}
+                    className={
+                      inputClass
+                    }
                     placeholder="#2563EB"
-                    maxLength={7}
+                    maxLength={
+                      7
+                    }
                     aria-label="Card color hex value"
                   />
                 </div>
@@ -2588,30 +3108,35 @@ function Page() {
                     "#EA580C",
                     "#DB2777",
                     "#0891B2",
-                  ].map((color) => (
-                    <button
-                      key={color}
-                      type="button"
-                      onClick={() =>
-                        updateCard(
-                          "cardColor",
-                          color,
-                        )
-                      }
-                      className={`h-9 w-9 rounded-full border-2 transition-all ${
-                        normalizeHexColor(
-                          card.cardColor,
-                        ) === color
-                          ? "border-white ring-2 ring-blue-400/30 ring-offset-2 ring-offset-slate-900"
-                          : "border-white/10 shadow"
-                      }`}
-                      style={{
-                        backgroundColor:
-                          color,
-                      }}
-                      aria-label={`Use ${color} card color`}
-                    />
-                  ))}
+                  ].map(
+                    (color) => (
+                      <button
+                        key={
+                          color
+                        }
+                        type="button"
+                        onClick={() =>
+                          updateCard(
+                            "cardColor",
+                            color,
+                          )
+                        }
+                        className={`h-9 w-9 rounded-full border-2 transition-all ${
+                          normalizeHexColor(
+                            card.cardColor,
+                          ) ===
+                          color
+                            ? "border-white ring-2 ring-blue-400/30 ring-offset-2 ring-offset-slate-900"
+                            : "border-white/10 shadow"
+                        }`}
+                        style={{
+                          backgroundColor:
+                            color,
+                        }}
+                        aria-label={`Use ${color} card color`}
+                      />
+                    ),
+                  )}
                 </div>
               </div>
             </div>
@@ -2636,7 +3161,11 @@ function Page() {
 
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
                 <div>
-                  <label className={labelClass}>
+                  <label
+                    className={
+                      labelClass
+                    }
+                  >
                     Preview
                   </label>
 
@@ -2657,13 +3186,19 @@ function Page() {
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <label className={labelClass}>
+                  <label
+                    className={
+                      labelClass
+                    }
+                  >
                     Hex color
                   </label>
 
                   <input
                     type="text"
-                    value={card.textColor}
+                    value={
+                      card.textColor
+                    }
                     onChange={(e) => {
                       const raw =
                         e.target.value.toUpperCase()
@@ -2691,9 +3226,13 @@ function Page() {
                         ),
                       )
                     }
-                    className={inputClass}
+                    className={
+                      inputClass
+                    }
                     placeholder="#FFFFFF"
-                    maxLength={7}
+                    maxLength={
+                      7
+                    }
                     aria-label="ID card text color hex value"
                   />
                 </div>
@@ -2712,30 +3251,35 @@ function Page() {
                     "#E2E8F0",
                     "#0F172A",
                     "#1E293B",
-                  ].map((color) => (
-                    <button
-                      key={color}
-                      type="button"
-                      onClick={() =>
-                        updateCard(
-                          "textColor",
-                          color,
-                        )
-                      }
-                      className={`h-9 w-9 rounded-full border-2 transition-all ${
-                        normalizeTextColor(
-                          card.textColor,
-                        ) === color
-                          ? "border-white ring-2 ring-blue-400/30 ring-offset-2 ring-offset-slate-900"
-                          : "border-white/10 shadow"
-                      }`}
-                      style={{
-                        backgroundColor:
-                          color,
-                      }}
-                      aria-label={`Use ${color} text color`}
-                    />
-                  ))}
+                  ].map(
+                    (color) => (
+                      <button
+                        key={
+                          color
+                        }
+                        type="button"
+                        onClick={() =>
+                          updateCard(
+                            "textColor",
+                            color,
+                          )
+                        }
+                        className={`h-9 w-9 rounded-full border-2 transition-all ${
+                          normalizeTextColor(
+                            card.textColor,
+                          ) ===
+                          color
+                            ? "border-white ring-2 ring-blue-400/30 ring-offset-2 ring-offset-slate-900"
+                            : "border-white/10 shadow"
+                        }`}
+                        style={{
+                          backgroundColor:
+                            color,
+                        }}
+                        aria-label={`Use ${color} text color`}
+                      />
+                    ),
+                  )}
                 </div>
               </div>
 
@@ -2791,20 +3335,28 @@ function Page() {
                 </div>
               </div>
 
-              <label className={labelClass}>
+              <label
+                className={
+                  labelClass
+                }
+              >
                 Valid Till
               </label>
 
               <input
                 type="text"
-                value={card.validTill}
+                value={
+                  card.validTill
+                }
                 onChange={(e) =>
                   updateCard(
                     "validTill",
                     e.target.value,
                   )
                 }
-                className={inputClass}
+                className={
+                  inputClass
+                }
                 placeholder="2027"
               />
             </div>
@@ -2812,6 +3364,7 @@ function Page() {
             {/* SAVE */}
             <div className="relative overflow-hidden rounded-2xl border border-blue-400/15 bg-linear-to-br from-blue-600/80 via-indigo-600/80 to-violet-600/80 p-5 shadow-[0_25px_60px_rgba(37,99,235,0.18)] backdrop-blur-xl sm:p-6">
               <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+
               <div className="absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-blue-300/10 blur-3xl" />
 
               <div className="relative">
@@ -2821,6 +3374,7 @@ function Page() {
                       <CheckCircle2
                         size={12}
                       />
+
                       Ready to save
                     </div>
 
@@ -2869,7 +3423,7 @@ function Page() {
                     exporting ||
                     loadingCard
                   }
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.92] px-6 py-3.5 text-base font-black text-blue-700 shadow-xl transition-all hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:py-4 cursor-pointer"
+                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.92] px-6 py-3.5 text-base font-black text-blue-700 shadow-xl transition-all hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:py-4"
                   whileHover={{
                     scale:
                       saving ||
